@@ -15,9 +15,10 @@ Deployed via GitHub Pages.
 
 ```sh
 npm install     # install the TypeScript compiler (only dependency)
-npm run build   # runs tsc — compiles src/*.ts to dist/*.js
-npx serve       # local static server — required, not optional: browsers
-                # block `type="module"` scripts from loading over plain
+npm run build   # runs tsc — compiles src/*.ts to public/dist/*.js
+npx serve public # local static server on the same folder that gets
+                # deployed — required, not optional: browsers block
+                # `type="module"` scripts from loading over plain
                 # file://, so a real http:// origin is needed
 ```
 
@@ -26,10 +27,15 @@ live-reload dev server like Vite would give you.
 
 ## Architecture
 
-- `src/*.ts` — TypeScript source, compiled to `dist/` (`tsconfig.json`:
-  ES2020 modules, strict mode)
-- `index.html` (once it exists) — loads compiled output via
-  `<script type="module" src="dist/index.js"></script>`
+- `src/*.ts` — TypeScript source only, never served directly.
+  Compiled automatically to `public/dist/` via `npm run build`.
+- `public/` — static files served as-is: `index.html`, `style.css`,
+  `favicon.svg`, plus the auto-generated `public/dist/`. Deploy
+  workflow copies this folder wholesale.
+- `index.html` loads compiled output via
+  `<script type="module" src="/dist/index.js"></script>` — an absolute
+  path, so it resolves correctly regardless of where the file physically
+  lives once deployed.
 - Content decisions: `docs/website/v0_spec.md` in the `mathapp` repo.
 - Visual-design decisions (palette, type, aesthetic direction):
   `docs/design/visual_identity.md` in the `mathapp` repo — canonical

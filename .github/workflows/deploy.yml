@@ -35,8 +35,7 @@ jobs:
       - name: Assemble site files
         run: |
           mkdir _site
-          cp index.html style.css favicon.svg _site/
-          cp -r dist _site/dist
+          cp -r public/. _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -54,6 +53,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+  # Automatically creates a tag after a successful deployment
   tag:
     needs: deploy
     runs-on: ubuntu-latest
@@ -75,7 +75,8 @@ jobs:
 
       - name: Create and push tag
         run: |
+          tag="${{ steps.tag.outputs.next }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.tag.outputs.next }}
-          git push origin ${{ steps.tag.outputs.next }}
+          git tag "$tag"
+          git push origin "$tag"
