@@ -69,8 +69,13 @@ jobs:
         id: tag
         run: |
           today=$(date -u +%Y-%m-%d)
-          count=$(git tag --list "${today}-*" | wc -l)
-          next="${today}-$((count + 1))"
+          latest=$(git tag --list "${today}-*" | sort -t- -k4 -n | tail -1)
+          if [ -z "$latest" ]; then
+            next="${today}-1"
+          else
+            n="${latest##*-}"
+            next="${today}-$((n + 1))"
+          fi
           echo "next=$next" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag
