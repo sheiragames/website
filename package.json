@@ -2,11 +2,16 @@
   "name": "website",
   "description": "",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint ."
   },
-  "dependencies": {},
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-love": "^154.1.0",
+    "eslint-plugin-functional": "^10.0.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.64.0"
   },
   "private": true
 }

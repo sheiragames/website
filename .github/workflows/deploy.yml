@@ -31,6 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # TODO: add a `lint` step here (npm run lint), blocking the build on failure, before "Build"
       - name: Build
         run: npm run build
 
