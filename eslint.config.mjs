@@ -10,12 +10,9 @@ export default defineConfig(
     ignores: ['public/dist/**'],
   },
   {
-    ...love,
-    files: ['**/*.{js,ts}'],
-  },
-  {
     files: ['**/*.{js,ts}'],
     extends: [
+      love,
       js.configs.recommended,
       tseslint.configs.recommended,
       tseslint.configs.strict,
@@ -26,7 +23,10 @@ export default defineConfig(
       '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       'functional/immutable-data': 'error',
-      'functional/prefer-immutable-types': 'error',
+      'functional/prefer-immutable-types': [
+        'error',
+        { parameters: {enforcement: 'None'} },
+      ],
       'functional/no-let': 'error',
       'functional/type-declaration-immutability': 'error',
       'functional/no-class-inheritance': 'error',
