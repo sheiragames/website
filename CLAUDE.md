@@ -49,3 +49,5 @@ live-reload dev server like Vite would give you.
   how deep the current page is nested.
 - TypeScript: `const`-first, avoid in-place mutation, prefer pure/
   higher-order functions over imperative loops where it fits naturally.
+- Deeper implementation habits/restrictions (discriminated-union field
+  naming, class-usage rules): see `CONVENTIONS.md`.
