@@ -41,3 +41,28 @@ export function logPageLoad(): void {
 		version: "v1",
 	});
 }
+
+export function logTestEvent(): void {
+	sendLogEvent({
+		event: WebsiteEvents.TEST_EVENT,
+		level: "info",
+		version: "v1",
+		data: {
+			answers: [
+				{ questionId: "sample-question-1", correct: true },
+				{ questionId: "sample-question-2", correct: false },
+			],
+			meta: {
+				browser: { name: "sample-browser", version: "1.0" },
+			},
+		},
+	});
+}
+
+export function logTestErrorEvent(): void {
+	sendLogEvent({
+		event: WebsiteEvents.TEST_ERROR_EVENT,
+		level: "error",
+		version: "v1",
+	});
+}
