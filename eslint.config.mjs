@@ -7,7 +7,7 @@ import functional from 'eslint-plugin-functional';
 
 export default defineConfig(
   {
-    ignores: ['public/dist/**'],
+    ignores: ['dist/**'],
   },
   {
     files: ['**/*.{js,ts}'],
@@ -23,18 +23,31 @@ export default defineConfig(
       '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       'functional/immutable-data': 'error',
-      'functional/prefer-immutable-types': [
-        'error',
-        { parameters: {enforcement: 'None'} },
-      ],
       'functional/no-let': 'error',
-      'functional/type-declaration-immutability': 'error',
       'functional/no-class-inheritance': 'error',
       'functional/no-classes': 'error',
       'functional/no-mixed-types': 'error',
       'functional/no-loop-statements': 'error',
       'functional/no-throw-statements': 'error',
       '@typescript-eslint/no-inferrable-types': 'off',
+    },
+  },
+  {
+    files: ['src/logging/**'],
+    rules: {
+      'functional/prefer-immutable-types': 'off',
+      'functional/type-declaration-immutability': 'off',
+    },
+  },
+  {
+    files: ['**/*.test.ts'],
+    rules: {
+      'functional/immutable-data': 'off',
+      '@typescript-eslint/prefer-destructuring': 'off',
+      '@typescript-eslint/no-magic-numbers': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-type-assertion': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
 );
