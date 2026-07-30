@@ -34,6 +34,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Build
         run: npm run build
 
@@ -59,15 +62,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Assemble site files
-        run: |
-          mkdir _site
-          cp -r public/. _site/
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: _site
+          path: dist
 
   deploy:
     needs: package

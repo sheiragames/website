@@ -1,29 +1,53 @@
 # sheiragames.com
 
 Static homepage/blog for sheiragames.com — plain HTML/CSS/TypeScript,
-no framework, no bundler. Deployed via GitHub Pages.
+bundled with Vite. Deployed via GitHub Pages.
+
+## Setup (once, or after `package.json` changes)
+
+```sh
+npm install
+```
+
+Downloads everything listed in `package.json` (Vite, TypeScript,
+ESLint, etc.) into `node_modules/` — needed before anything below runs.
+
+## Run locally
+
+```sh
+npm run dev
+```
+
+Starts Vite's dev server (`http://localhost:5173`) with hot module
+reload — edit `src/*.ts`, see it update instantly. This is the
+everyday command; it doesn't need `npm run build` first, and doesn't
+run it either — the two are unrelated.
 
 ## Build
 
 ```sh
-npm install
 npm run build
-npx serve public
 ```
 
-Compiles `src/*.ts` to `public/dist/*.js` via `tsc`, then serves the
-`public/` folder over `http://localhost:...` — the same folder that
-gets deployed, so what you see locally is what goes live. A real
-server is required — browsers block
-`type="module"` scripts from loading over plain `file://`. Reload
-manually after each build; no live-reload.
+Bundles everything into `dist/` — the real, optimized output that gets
+deployed. Only needed to produce that final folder yourself (CI does
+this automatically on deploy) or to preview the exact production build
+locally before pushing.
+
+## Typecheck / Lint
+
+```sh
+npm run typecheck   # tsc --noEmit — Vite bundles but doesn't type-check
+npm run lint
+```
 
 ## Adding a new page, asset, or script
 
-Static files served as-is (HTML, CSS, images) go under `public/` — the
-deploy workflow copies that folder wholesale, nothing else to update.
-TypeScript goes in `src/`; compiled output lands in `public/dist/`
-automatically via `npm run build`.
+- Static files served as-is (images, fonts, etc.) go under `public/`
+  — Vite copies this folder into `dist/` automatically at build time.
+- `index.html` is the entry point, at the repo root — reference new
+  scripts there via `<script type="module" src="/src/...">`.
+- TypeScript goes in `src/`.
 
 ## Docs
 
