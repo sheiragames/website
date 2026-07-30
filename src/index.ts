@@ -1,10 +1,3 @@
-const DEBUG: boolean = true;
+import { logPageLoad } from "@/logging/send";
 
-function log(...args: unknown[]): void {
-	if (DEBUG) {
-		// eslint-disable-next-line no-console -- sanctioned logging wrapper
-		console.log(...args);
-	}
-}
-
-log('Happy developing ✨');
+logPageLoad();

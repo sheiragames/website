@@ -43,6 +43,9 @@ npm run lint
 
 ## Adding a new page, asset, or script
 
+- Every page needs a `<meta name="page-name" content="...">` tag in its
+  `<head>` — required for event logging (`getPageName()` in
+  `src/logging/page.ts` reads it; throws loudly if missing, on purpose).
 - Static files served as-is (images, fonts, etc.) go under `public/`
   — Vite copies this folder into `dist/` automatically at build time.
 - `index.html` is the entry point, at the repo root — reference new
