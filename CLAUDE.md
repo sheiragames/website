@@ -39,5 +39,3 @@ Setup/run/build/test/lint commands: see `README.md`, not here.
   nested.
 - TypeScript: `const`-first, avoid in-place mutation, prefer pure/
   higher-order functions over imperative loops where it fits naturally.
-- Deeper implementation habits/restrictions (discriminated-union field
-  naming, class-usage rules): see `CONVENTIONS.md`.
