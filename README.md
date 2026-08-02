@@ -20,8 +20,10 @@ npm run dev
 
 Starts Vite's dev server (`http://localhost:5173`) with hot module
 reload — edit `src/*.ts`, see it update instantly. This is the
-everyday command; it doesn't need `npm run build` first, and doesn't
-run it either — the two are unrelated.
+everyday command. It also runs `scripts/build-blog.ts` once at
+startup to regenerate `blog/` from `blog-posts/*.md` — restart
+`npm run dev` after adding, editing, or removing a post to pick up
+the change.
 
 ## Build
 
