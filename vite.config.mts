@@ -26,14 +26,13 @@ function getBlogEntries(): Record<string, string> {
 	return entries;
 }
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
 	resolve: { tsconfigPaths: true },
-	build: {
-		rollupOptions: {
-			input: getBlogEntries(),
-		},
-	},
+	build:
+		command === "build"
+			? { rollupOptions: { input: getBlogEntries() } }
+			: undefined,
 	test: {
 		environment: "happy-dom",
 	},
-});
+}));
