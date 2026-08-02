@@ -50,4 +50,13 @@ export default defineConfig(
       '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
+  {
+    files: ['scripts/**'],
+    rules: {
+      'functional/no-throw-statements': 'off',
+      '@typescript-eslint/no-magic-numbers': 'off',
+      '@typescript-eslint/prefer-destructuring': 'off',
+      'require-unicode-regexp': 'off',
+    },
+  },
 );
