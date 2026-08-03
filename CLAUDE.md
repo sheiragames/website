@@ -39,3 +39,7 @@ Setup/run/build/test/lint commands: see `README.md`, not here.
   nested.
 - TypeScript: `const`-first, avoid in-place mutation, prefer pure/
   higher-order functions over imperative loops where it fits naturally.
+- `style.css` is organized into commented sections, in cascade order:
+  tokens → reset → global typography → layout primitives → per-surface
+  (homepage, blog). Add new rules to the section they belong in, not
+  appended at the end — keeps the file scannable as it grows.
