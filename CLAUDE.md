@@ -30,7 +30,7 @@ Setup/run/build/test/lint commands: see `README.md`, not here.
 - `public/` — static passthrough assets only (`style.css`,
   `favicon.svg`); Vite copies this into `dist/` automatically.
 - Every page needs a `<meta name="page-name" content="...">` tag —
-  required by the logging pipeline, throws loudly if missing.
+  required by the logging pipeline; falls back to `"unknown-page"` if missing, not thrown/loud.
 
 ## Conventions
 

@@ -23,15 +23,31 @@ export type ClientSuppliedFields = DistributiveOmit<
 >;
 
 export function sendLogEvent(fields: ClientSuppliedFields): void {
-	const payload = EventSchema.parse({
-		...fields,
-		source: SOURCE,
-		sessionId: getSessionId(),
-		path: location.pathname,
-		pageName: getPageName(),
-	});
-	// if (true) console.log(payload); // uncomment locally to debug — lint blocks this from being accidentally committed uncommented
-	navigator.sendBeacon(LOG_ENDPOINT, JSON.stringify(payload));
+	try {
+		const payload = EventSchema.parse({
+			...fields,
+			source: SOURCE,
+			sessionId: getSessionId(),
+			path: location.pathname,
+			pageName: getPageName(),
+		});
+		// if (true) console.log(payload); // uncomment locally to debug — lint blocks this from being accidentally committed uncommented
+		navigator.sendBeacon(LOG_ENDPOINT, JSON.stringify(payload));
+	} catch (err) {
+		if (fields.event === WebsiteEvents.WEBSITE_ERROR) {
+			// error reporting failing on itself is a self-referential dead end —
+			// give up silently rather than trying to error-report a failed error report
+			return;
+		}
+		// a genuine bug (e.g. schema drift) on a non-error event is worth
+		// surfacing through error reporting, not swallowing silently
+		logWebsiteError({
+			errorName: WebsiteErrorNames.WS_INTERNAL_SERVER_ERROR,
+			errorMessage: err instanceof Error ? err.message : String(err),
+			stacktrace: err instanceof Error ? (err.stack ?? null) : null,
+			needEmailSending: true,
+		});
+	}
 }
 
 export function logPageLoad(): void {
@@ -56,7 +72,7 @@ export function logWebsiteError(fields: {
 	});
 }
 
-export function testLog(needEmail: boolean, errorMessage = "Manual test trigger"): void {
+export function testLog(needEmail = false, errorMessage = "Manual test trigger"): void {
 	logWebsiteError({
 		errorName: WebsiteErrorNames.WS_INTERNAL_SERVER_ERROR,
 		errorMessage,
