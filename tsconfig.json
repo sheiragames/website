@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "noEmitOnError": true
   },
-  "include": ["src", "vite.config.mts", "scripts"]
+  "include": ["src", "test", "vite.config.mts", "scripts"]
 }

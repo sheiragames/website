@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { EventSchema, WebsiteEvents } from "@/logging/website-events-v1";
+import { EventSchema, WebsiteEvents, WebsiteErrorNames, SOURCE } from "@/logging/website-events-v1";
 import { getSessionId } from "@/logging/session";
 import { getPageName } from "@/logging/page";
 
@@ -23,15 +23,31 @@ export type ClientSuppliedFields = DistributiveOmit<
 >;
 
 export function sendLogEvent(fields: ClientSuppliedFields): void {
-	const payload = EventSchema.parse({
-		...fields,
-		source: "website",
-		sessionId: getSessionId(),
-		path: location.pathname,
-		pageName: getPageName(),
-	});
-	// if (true) console.log(payload); // uncomment locally to debug — lint blocks this from being accidentally committed uncommented
-	navigator.sendBeacon(LOG_ENDPOINT, JSON.stringify(payload));
+	try {
+		const payload = EventSchema.parse({
+			...fields,
+			source: SOURCE,
+			sessionId: getSessionId(),
+			path: location.pathname,
+			pageName: getPageName(),
+		});
+		// if (true) console.log(payload); // uncomment locally to debug — lint blocks this from being accidentally committed uncommented
+		navigator.sendBeacon(LOG_ENDPOINT, JSON.stringify(payload));
+	} catch (err) {
+		if (fields.event === WebsiteEvents.WEBSITE_ERROR) {
+			// error reporting failing on itself is a self-referential dead end —
+			// give up silently rather than trying to error-report a failed error report
+			return;
+		}
+		// a genuine bug (e.g. schema drift) on a non-error event is worth
+		// surfacing through error reporting, not swallowing silently
+		logWebsiteError({
+			errorName: WebsiteErrorNames.WS_INTERNAL_SERVER_ERROR,
+			errorMessage: err instanceof Error ? err.message : String(err),
+			stacktrace: err instanceof Error ? (err.stack ?? null) : null,
+			needEmailSending: true,
+		});
+	}
 }
 
 export function logPageLoad(): void {
@@ -42,27 +58,25 @@ export function logPageLoad(): void {
 	});
 }
 
-export function logTestEvent(): void {
+export function logWebsiteError(fields: {
+	errorName: (typeof WebsiteErrorNames)[keyof typeof WebsiteErrorNames];
+	errorMessage: string;
+	stacktrace: string | null;
+	needEmailSending: boolean;
+}): void {
 	sendLogEvent({
-		event: WebsiteEvents.TEST_EVENT,
-		level: "info",
+		event: WebsiteEvents.WEBSITE_ERROR,
+		level: "error",
 		version: "v1",
-		data: {
-			answers: [
-				{ questionId: "sample-question-1", correct: true },
-				{ questionId: "sample-question-2", correct: false },
-			],
-			meta: {
-				browser: { name: "sample-browser", version: "1.0" },
-			},
-		},
+		...fields,
 	});
 }
 
-export function logTestErrorEvent(): void {
-	sendLogEvent({
-		event: WebsiteEvents.TEST_ERROR_EVENT,
-		level: "error",
-		version: "v1",
+export function testLog(needEmail = false, errorMessage = "Manual test trigger"): void {
+	logWebsiteError({
+		errorName: WebsiteErrorNames.WS_INTERNAL_SERVER_ERROR,
+		errorMessage,
+		stacktrace: null,
+		needEmailSending: needEmail,
 	});
 }
