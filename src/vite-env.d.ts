@@ -3,6 +3,5 @@
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- declaration merging (augmenting Window) only works with `interface`, `type` cannot do this
 interface Window {
-	testLog: () => void;
-	testErrorLog: () => void;
+	testLog: (needEmail: boolean, errorMessage?: string) => void;
 }
