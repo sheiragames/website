@@ -3,9 +3,18 @@ import { EventSchema, WebsiteEvents, WebsiteErrorNames, SOURCE } from "@/logging
 import { getSessionId } from "@/logging/session";
 import { getPageName } from "@/logging/page";
 
-const LOG_ENDPOINT = import.meta.env.DEV
-	? "http://localhost:8787/api/log"
-	: "https://sheiragames.com/api/log";
+function getLogEndpoint(): string {
+	switch (import.meta.env.MODE) {
+		case "development":
+			return "http://localhost:8787/api/log";
+		case "test":
+			return "https://test.sheiragames.com/api/log";
+		default:
+			return "https://sheiragames.com/api/log";
+	}
+}
+
+const LOG_ENDPOINT = getLogEndpoint();
 
 // Omit doesn't distribute correctly over a discriminated union on its own —
 // verified: it collapses per-variant narrowing on the result. This form does.
