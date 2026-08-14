@@ -1,7 +1,7 @@
 # sheiragames.com
 
 Static homepage/blog for sheiragames.com — plain HTML/CSS/TypeScript,
-bundled with Vite. Deployed via GitHub Pages.
+bundled with Vite. Deployed via Cloudflare Pages.
 
 ## Setup (once, or after `package.json` changes)
 
