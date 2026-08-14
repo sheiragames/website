@@ -7,7 +7,7 @@ repository.
 
 Static homepage/blog for sheiragames.com — a personal/brand site, not
 scoped to mathapp specifically. Plain HTML/CSS/TypeScript, bundled
-with Vite. Deployed via GitHub Pages.
+with Vite. Deployed via Cloudflare Pages.
 
 - Content decisions: `docs/website/homepage_spec.md` and
   `docs/website/blog_spec.md` in the `mathapp` repo.
