@@ -25,8 +25,13 @@ Setup/run/build/test/lint commands: see `README.md`, not here.
   — see `logging.md` in the `mathapp` repo for the cross-repo "why".
 - `@/*` resolves to `src/*` (see `tsconfig.json`/`vite.config.mts`) —
   use it instead of relative `../` imports.
-- `index.html` is the entry point, at the repo root (Vite convention)
-  — references source directly (`/src/index.ts`), not compiled output.
+- `en/`/`hu/` — generated output (gitignored), one directory per
+  locale, holding the homepage and blog pages. Produced by
+  `scripts/build-home.ts` and `scripts/build-blog.ts` from
+  `src/strings/{en,hu}.ts` and `blog-posts/{en,hu}/*.md`, both via
+  the shared `scripts/shell.ts` template (references source directly,
+  `/src/index.ts`, not compiled output). URL/i18n scheme decisions:
+  `docs/architecture/i18n.md` in the `mathapp` repo.
 - `public/` — static passthrough assets only (`style.css`,
   `favicon.svg`); Vite copies this into `dist/` automatically.
 - Every page needs a `<meta name="page-name" content="...">` tag —

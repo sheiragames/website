@@ -107,6 +107,29 @@ a.wordmark {
   color: var(--accent);
 }
 
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.lang-switch {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+}
+
+.lang-switch:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .mascot {
   width: 96px;
   height: 96px;
