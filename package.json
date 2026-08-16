@@ -3,8 +3,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/build-blog.ts && vite",
-    "build": "node scripts/build-blog.ts && vite build",
+    "dev": "node scripts/build-blog.ts && node scripts/build-home.ts && vite",
+    "build": "node scripts/build-blog.ts && node scripts/build-home.ts && vite build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
